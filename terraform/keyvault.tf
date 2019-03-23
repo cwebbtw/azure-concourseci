@@ -30,7 +30,8 @@ resource "azurerm_key_vault" "concourse_keyvault" {
     secret_permissions = [
       "list",
       "set",
-      "get"
+      "get",
+      "delete"
     ]
   }
 }
