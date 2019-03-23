@@ -1,0 +1,18 @@
+---
+- name: "Concourse CI Ansible playbook"
+  hosts: all
+  vars_files:
+    - ../vars/main.yml
+  tasks:
+  - name: Download | Download Concourse CI Binary
+    get_url:
+      url: "{{ concourseci_link_address }}"
+      dest: "{{ concourseci_download_location }}"
+      mode: 0755
+
+  - name: Extract | Copy to install location
+    become: yes
+    become_user: root
+    unarchive:
+      src: "{{ concourseci_download_location }}"
+      dest: "{{ concourseci_install_location }}"
