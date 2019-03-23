@@ -19,3 +19,43 @@
   unarchive:
     src: "{{ concourseci_download_location }}"
     dest: "{{ concourseci_install_location }}"
+
+- name: Create Keys Directory | Make concourse keys directory
+  become: yes
+  become_user: root
+  file:
+    path: "{{ concourseci_install_location }}/concourse/keys"
+    state: directory
+
+- name: Generate Key | Create Session signing key
+  become: yes
+  become_user: root
+  shell: >
+    "{{ concourseci_install_location }}/concourse/bin/concourse" generate-key
+    -t rsa -f "{{ concourseci_install_location }}/concourse/keys/session_signing_key"
+
+- name: Generate Key | Create TSA host key
+  become: yes
+  become_user: root
+  shell: >
+    "{{ concourseci_install_location }}/concourse/bin/concourse" generate-key
+    -t ssh -f "{{ concourseci_install_location }}/concourse/keys/tsa_host_key"
+
+- name: Generate Key | Create Worker key
+  become: yes
+  become_user: root
+  shell: >
+    "{{ concourseci_install_location }}/concourse/bin/concourse" generate-key
+    -t ssh -f "{{ concourseci_install_location }}/concourse/keys/worker_key"
+
+- name: Create Authorised Keys Directory
+  become: yes
+  become_user: root
+  file:
+    path: "{{ concourseci_install_location }}/concourse/keys/authorized_worker_keys"
+    state: directory
+
+- name: Copy worker key to Authorised Keys Directory
+  copy:
+    src: "{{ concourseci_install_location }}/concourse/keys/worker_key.pub"
+    dest: "{{ concourseci_install_location }}/concourse/keys/authorized_worker_keys"
