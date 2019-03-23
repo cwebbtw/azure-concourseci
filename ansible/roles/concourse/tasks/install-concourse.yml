@@ -1,8 +1,7 @@
 ---
 - name: "Concourse CI Ansible playbook"
   hosts: all
-  vars_files:
-    - ../vars/main.yml
+
   tasks:
   - name: Download | Download Concourse CI Binary
     get_url:

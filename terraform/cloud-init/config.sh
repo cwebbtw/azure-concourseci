@@ -10,12 +10,12 @@ sudo apt-get install apt-transport-https
 sudo apt-get update && sudo apt-get install -y azure-cli libssl-dev libffi-dev python-dev python-pip
 sudo pip install ansible[azure]
 
-cd $HOME
+cd ~
 
 git clone https://github.com/cwebbtw/azure-concourseci.git
 
 cd azure-concourseci/ansible
 
-ansible-playbook --connection=local --inventory localhost, tasks/main.yml
+ansible-playbook --connection=local --inventory localhost, concourse.yml --tags "full"
 
 exit 0

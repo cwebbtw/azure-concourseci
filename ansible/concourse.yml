@@ -1,0 +1,6 @@
+---
+
+- hosts: all
+  roles:
+    - { role: concourse, tags: 'all' }
+    - { role: concourse, tags: 'all' }
