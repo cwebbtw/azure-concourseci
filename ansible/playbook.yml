@@ -4,9 +4,6 @@
   hosts: all
   gather_facts: no
 
-  vars:
-    generated_database_password: "{{ lookup('password', '/dev/null length=16 chars=ascii_letters') }}"
-
   roles:
     - { role: postgres, tags: 'all' }
 
