@@ -1,4 +1,5 @@
 ---
+
 - name: Update apt cache
   hosts: all
   become: yes
