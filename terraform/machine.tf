@@ -1,68 +1,3 @@
-provider "azurerm" {
-  version = "=1.22.0"
-}
-
-provider "azuread" {
-  version = "=0.1.0"
-  alias = "azuread"
-}
-
-resource "azurerm_resource_group" "concourse" {
-  name     = "concourse"
-  location = "westeurope"
-}
-
-resource "azurerm_virtual_network" "concourse_vnet" {
-  name                = "concourse_vnet"
-  address_space       = ["10.0.0.0/16"]
-  location            = "${azurerm_resource_group.concourse.location}"
-  resource_group_name = "${azurerm_resource_group.concourse.name}"
-}
-
-resource "azurerm_subnet" "concourse_public_subnet" {
-  name                 = "concourse_public_subnet"
-  resource_group_name  = "${azurerm_resource_group.concourse.name}"
-  virtual_network_name = "${azurerm_virtual_network.concourse_vnet.name}"
-  address_prefix       = "10.0.2.0/24"
-}
-
-resource "azurerm_network_interface" "concourse_public_nic" {
-  name                = "concourse_public_nic"
-  location            = "${azurerm_resource_group.concourse.location}"
-  resource_group_name = "${azurerm_resource_group.concourse.name}"
-
-  ip_configuration {
-    name                          = "concourse_public_nic"
-    subnet_id                     = "${azurerm_subnet.concourse_public_subnet.id}"
-    private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = "${azurerm_public_ip.concourse_public_ip.id}"
-  }
-}
-
-resource "azurerm_public_ip" "concourse_public_ip" {
-  location                     = "${azurerm_resource_group.concourse.location}"
-  resource_group_name          = "${azurerm_resource_group.concourse.name}"
-  allocation_method            = "Dynamic"
-  name                         = "concourse_public_ip"
-}
-
-resource "azurerm_network_security_group" "concourse_nsg" {
-  name                = "concourse_nsg"
-  location            = "${azurerm_resource_group.concourse.location}"
-  resource_group_name = "${azurerm_resource_group.concourse.name}"
-
-  security_rule {
-    name                       = "SSH"
-    priority                   = 1001
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-}
 
 resource "tls_private_key" "concourse_key" {
   algorithm = "RSA"
@@ -70,7 +5,7 @@ resource "tls_private_key" "concourse_key" {
 }
 
 resource "azurerm_virtual_machine" "concourse_vm" {
-  name = "concourse_vm"
+  name = "concourse-vm"
   location = "${azurerm_resource_group.concourse.location}"
   resource_group_name = "${azurerm_resource_group.concourse.name}"
   network_interface_ids = [
@@ -78,7 +13,7 @@ resource "azurerm_virtual_machine" "concourse_vm" {
   vm_size = "Standard_DS1_v2"
 
   storage_os_disk {
-    name = "concourse_disk"
+    name = "concourse-disk"
     caching = "ReadWrite"
     create_option = "FromImage"
     managed_disk_type = "Standard_LRS"
@@ -89,6 +24,11 @@ resource "azurerm_virtual_machine" "concourse_vm" {
     offer = "UbuntuServer"
     sku = "16.04-LTS"
     version = "latest"
+  }
+
+  identity {
+    type = "UserAssigned"
+    identity_ids = ["${azurerm_user_assigned_identity.concourse_identity.id}"]
   }
 
   os_profile {

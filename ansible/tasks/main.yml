@@ -10,6 +10,13 @@
       dest: "{{ concourseci_download_location }}"
       mode: 0755
 
+  - name: Create Directory | Make concourse install location
+    become: yes
+    become_user: root
+    file:
+      path: "{{ concourseci_install_location }}"
+      state: directory
+
   - name: Extract | Copy to install location
     become: yes
     become_user: root
