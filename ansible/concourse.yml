@@ -1,6 +1,0 @@
----
-
-- hosts: all
-  roles:
-    - { role: postgres, tags: 'all' }
-    - { role: concourse, tags: 'all' }

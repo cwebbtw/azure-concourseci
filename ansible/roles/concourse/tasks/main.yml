@@ -1,25 +1,21 @@
 ---
-- name: "Concourse CI Ansible playbook"
-  hosts: all
-  gather_facts: yes
 
-  tasks:
-    - name: Download | Download Concourse CI Binary
-      get_url:
-        url: "{{ concourseci_link_address }}"
-        dest: "{{ concourseci_download_location }}"
-        mode: 0755
+- name: Download | Download Concourse CI Binary
+  get_url:
+    url: "{{ concourseci_link_address }}"
+    dest: "{{ concourseci_download_location }}"
+    mode: 0755
 
-    - name: Create Directory | Make concourse install location
-      become: yes
-      become_user: root
-      file:
-        path: "{{ concourseci_install_location }}"
-        state: directory
+- name: Create Directory | Make concourse install location
+  become: yes
+  become_user: root
+  file:
+    path: "{{ concourseci_install_location }}"
+    state: directory
 
-    - name: Extract | Copy to install location
-      become: yes
-      become_user: root
-      unarchive:
-        src: "{{ concourseci_download_location }}"
-        dest: "{{ concourseci_install_location }}"
+- name: Extract | Copy to install location
+  become: yes
+  become_user: root
+  unarchive:
+    src: "{{ concourseci_download_location }}"
+    dest: "{{ concourseci_install_location }}"

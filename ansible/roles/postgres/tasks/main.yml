@@ -1,41 +1,33 @@
 ---
+- name: Apt cache should be updated
+  apt: update_cache=yes
 
-- name: Update apt cache
-  hosts: all
-  become: yes
-  gather_facts: no
+- name: Install postgres
+  apt:
+    name:
+      - postgresql
+      - libpq-dev
+      - python-psycopg2
 
-  tasks:
-    - name: Apt cache is up to date
-      apt: update_cache=yes
-    - name: ensure packages are installed
-      apt:
-        name:
-          - postgresql
-          - libpq-dev
-          - python-psycopg2
-
-- name: Install postgresql
-  hosts: all
+- name: Create Database
   become: yes
   become_user: postgres
-  gather_facts: no
+  postgresql_db: name={{concourse_database_name}}
 
-  vars:
-    generated_database_password: "{{ lookup('password', '/dev/null length=16 chars=ascii_letters') }}"
+- name: Grant user access to database
+  become: yes
+  become_user: postgres
+  postgresql_user: db={{concourse_database_name}} name={{concourse_database_user}} password={{generated_database_password}} priv=ALL
 
-  tasks:
-    - name: Create Database
-      postgresql_db: name={{concourse_database_name}}
+- name: Remove unneccessary privileges
+  become: yes
+  become_user: postgres
+  postgresql_user: name={{concourse_database_user}} role_attr_flags=NOSUPERUSER,NOCREATEDB
 
-    - name: Grant user access to database
-      postgresql_user: db={{concourse_database_name}} name={{concourse_database_user}} password={{generated_database_password}} priv=ALL
+- name: Lock database to granted user
+  become: yes
+  become_user: postgres
+  postgresql_privs: db={{concourse_database_name}} role=PUBLIC type=database priv=ALL state=absent
 
-    - name: Remove unneccessary privileges
-      postgresql_user: name={{concourse_database_user}} role_attr_flags=NOSUPERUSER,NOCREATEDB
-
-    - name: Lock database to granted user
-      postgresql_privs: db={{concourse_database_name}} role=PUBLIC type=database priv=ALL state=absent
-
-    - set_fact:
-        concourse_database_password: "{{ generated_database_password }}"
+- set_fact:
+    concourse_database_password: "{{ generated_database_password }}"
