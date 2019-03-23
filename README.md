@@ -15,11 +15,10 @@ WARNING: This is currently a work in progress and is **incomplete**, it is not s
 If Azure or concourse are new to you, head over to the links provided and read into what this codebase will be doing as 
 the resources provisioned are not all free and concourse is not configured via a user interface.
 
-## Concourse CI on Azure
+## Concourse CI on Azure
 
 This codebase will create the infrastructure needed for running [Concourse CI](https://concourse-ci.org/) and 
 subsequently install and configure the software accordingly.
-
 
 ## Getting Started
 
