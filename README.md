@@ -12,6 +12,9 @@ WARNING: This is currently a work in progress and is **incomplete**, it is not s
   * Terraform (written against v0.11.13)
   * Azure CLI (written against 2.0.60)
 
+If Azure or concourse are new to you, head over to the links provided and read into what this codebase will be doing as 
+the resources provisioned are not all free and concourse is not configured via a user interface.
+
 ## Concourse CI on Azure
 
 This codebase will create the infrastructure needed for running [Concourse CI](https://concourse-ci.org/) and 
