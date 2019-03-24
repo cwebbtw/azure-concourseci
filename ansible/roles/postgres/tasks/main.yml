@@ -9,27 +9,34 @@
       - libpq-dev
       - python-psycopg2
 
+- name: Generate Credentials
+  set_fact:
+    concourse_database_password: "{{ lookup('password', '/dev/null length=16 chars=ascii_letters') }}"
+    concourse_database_name: "{{ concourse_database_name }}"
+    concourse_database_user: "{{ concourse_database_user }}"
+
 - name: Create Database
   become: yes
   become_user: postgres
-  postgresql_db: name={{concourse_database_name}}
+  postgresql_db:
+    name: "{{ concourse_database_name }}"
 
 - name: Grant user access to database
   become: yes
   become_user: postgres
-  postgresql_user: db={{concourse_database_name}} name={{concourse_database_user}} password={{generated_database_password}} priv=ALL
+  postgresql_user:
+    db: "{{ concourse_database_name }}"
+    name: "{{ concourse_database_user }}"
+    password: "{{ concourse_database_password }}"
+    priv: ALL
+    role_attr_flags: NOSUPERUSER,NOCREATEDB
 
-- name: Remove unneccessary privileges
+- name: Grant Permissions to user
   become: yes
   become_user: postgres
-  postgresql_user: name={{concourse_database_user}} role_attr_flags=NOSUPERUSER,NOCREATEDB
-
-- name: Lock database to granted user
-  become: yes
-  become_user: postgres
-  postgresql_privs: db={{concourse_database_name}} role=PUBLIC type=database priv=ALL state=absent
-
-- set_fact:
-    concourse_database_password: "{{ generated_database_password }}"
-    concourse_database_name: atc
-    concourse_database_user: concourse
+  postgresql_privs:
+    db: "{{ concourse_database_name }}"
+    privs: ALL
+    type: schema
+    objs: public
+    role: "{{ concourse_database_user }}"
