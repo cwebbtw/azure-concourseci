@@ -1,0 +1,23 @@
+[Unit]
+Description=Concourse web service
+After=postgresql.service
+
+[Service]
+Restart=always
+RestartSec=1
+User=concourse
+ExecStart={{ concourseci_install_location }}/concourse/bin/concourse web
+Environment="FOO=bar baz"
+Environment="CONCOURSE_POSTGRES_HOST=127.0.0.1"
+Environment="CONCOURSE_POSTGRES_PORT=5432"
+Environment="CONCOURSE_POSTGRES_DATABASE={{ concourse_database_name }}"
+Environment="CONCOURSE_POSTGRES_USER={{ concourse_database_user }}"
+Environment="CONCOURSE_POSTGRES_PASSWORD={{ generated_database_password }}"
+Environment="CONCOURSE_ADD_LOCAL_USER={{ concourse_local_username }}:{{ concourse_local_password }}"
+Environment="CONCOURSE_MAIN_TEAM_LOCAL_USER={{ concourse_local_username }}"
+Environment="CONCOURSE_SESSION_SIGNING_KEY={{ concourseci_install_location }}/concourse/keys/session_signing_key"
+Environment="CONCOURSE_TSA_HOST_KEY={{ concourseci_install_location }}/concourse/keys/tsa_host_key"
+Environment="CONCOURSE_TSA_AUTHORIZED_KEYS={{ concourseci_install_location }}/concourse/keys/authorized_worker_keys"
+
+[Install]
+WantedBy=multi-user.target

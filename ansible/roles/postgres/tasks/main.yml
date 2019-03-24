@@ -31,3 +31,5 @@
 
 - set_fact:
     concourse_database_password: "{{ generated_database_password }}"
+    concourse_database_name: atc
+    concourse_database_user: concourse

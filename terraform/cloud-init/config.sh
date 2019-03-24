@@ -7,10 +7,10 @@ curl -L https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 
 # Install Azure CLI and ansible together due to known compatibility issues
 apt-get update
-apt-get apt-transport-https install -y azure-cli libssl-dev libffi-dev python-dev python-pip
+apt-get install apt-transport-https -y azure-cli libssl-dev libffi-dev python-dev python-pip
 pip install ansible[azure]
 
-cd ~
+cd /root
 
 git clone https://github.com/cwebbtw/azure-concourseci.git
 

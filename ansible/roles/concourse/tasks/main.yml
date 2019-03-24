@@ -59,3 +59,11 @@
   copy:
     src: "{{ concourseci_install_location }}/concourse/keys/worker_key.pub"
     dest: "{{ concourseci_install_location }}/concourse/keys/authorized_worker_keys"
+
+- name: Deploy Concourse Web Service
+  template:
+    src: concourse-web.service.j2
+    dest: /lib/systemd/system/concourse-web.service
+
+- name: Start Concourse Web Service
+  systemd: name=concourse-web state=restarted enabled=yes
