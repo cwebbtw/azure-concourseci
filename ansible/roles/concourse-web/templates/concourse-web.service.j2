@@ -7,7 +7,6 @@ Restart=always
 RestartSec=1
 User=concourse
 ExecStart={{ concourseci_install_location }}/concourse/bin/concourse web
-Environment="FOO=bar baz"
 Environment="CONCOURSE_POSTGRES_HOST=127.0.0.1"
 Environment="CONCOURSE_POSTGRES_PORT=5432"
 Environment="CONCOURSE_POSTGRES_DATABASE={{ concourse_database_name }}"

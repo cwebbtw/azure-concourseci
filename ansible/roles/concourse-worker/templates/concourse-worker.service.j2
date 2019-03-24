@@ -1,0 +1,15 @@
+[Unit]
+Description=Concourse web service
+After=postgresql.service
+
+[Service]
+Restart=always
+RestartSec=1
+ExecStart={{ concourseci_install_location }}/concourse/bin/concourse worker
+Environment="CONCOURSE_WORK_DIR={{ concourse_worker_directory }}"
+Environment="CONCOURSE_TSA_HOST=127.0.0.1:2222"
+Environment="CONCOURSE_TSA_PUBLIC_KEY={{ concourseci_install_location }}/concourse/keys/tsa_host_key.pub"
+Environment="CONCOURSE_TSA_WORKER_PRIVATE_KEY={{ concourseci_install_location }}/concourse/keys/worker_key"
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+- name: Create Directory | Create Concourse worker directory
+  become: yes
+  become_user: root
+  file:
+    path: "{{ concourse_worker_directory }}"
+    state: directory
+
+- name: Deploy Concourse Worker
+  template:
+    src: concourse-worker.service.j2
+    dest: /lib/systemd/system/concourse-worker.service
+
+- name: Start Concourse Worker Service
+  systemd: name=concourse-worker state=restarted enabled=yes

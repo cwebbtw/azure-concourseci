@@ -1,6 +1,0 @@
-concourseci_link_address: "https://github.com/concourse/concourse/releases/download/v5.0.0/concourse-5.0.0-linux-amd64.tgz"
-concourseci_download_location: "/tmp/concourse-5.0.0-linux-amd64.tgz"
-concourseci_install_location: "/usr/local"
-
-concourse_local_username: concourse
-concourse_local_password: concourse

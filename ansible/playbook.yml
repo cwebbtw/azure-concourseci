@@ -3,13 +3,18 @@
 - name: Install Postgresql
   hosts: all
   gather_facts: no
-
   roles:
     - { role: postgres, tags: 'all' }
 
-- name: Concourse CI Ansible playbook
+- name: Concourse CI Web
   hosts: all
   gather_facts: yes
   roles:
-    - { role: concourse, tags: 'all' }
+    - { role: concourse-web, tags: 'all' }
+
+- name: Concourse CI Worker
+  hosts: all
+  gather_facts: yes
+  roles:
+    - { role: concourse-worker, tags: 'all' }
 

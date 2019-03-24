@@ -1,5 +1,9 @@
 ---
 
+- name: Generate Credentials
+  set_fact:
+    concourseci_install_location: "{{ concourseci_install_location }}"
+
 - name: Download | Download Concourse CI Binary
   get_url:
     url: "{{ concourseci_link_address }}"
