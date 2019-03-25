@@ -72,3 +72,14 @@ All of the software will be installed and configured on a single machine however
 it may be worth considering multiple web and worker nodes. More on scaling and performance can be found
 on the Concourse CI website.
 
+#### Local Authentication
+
+Local Authentication is currently enabled with the username *concourse* and password *concourse*.
+
+If you want to use [Github OAuth](https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/), see the sample key vault *client id* and *secret id* terraform declarations in [keyvault.tf](terraform/keyvault.tf). Using the azure machine identity, retrieve the secrets and write them into the templated [concourse-web service file](ansible/roles/concourse-web/templates/concourse-web.service.j2).
+
+## Improvements
+
+* Sample pipelines
+* Concourse web currently runs under 'concourse' user but is administrator
+* Tests for terraform provisioned infrastructure and ansible configured software
