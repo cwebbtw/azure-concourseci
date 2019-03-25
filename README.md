@@ -1,6 +1,8 @@
 # Concourse CI on Azure
 
-WARNING: This is currently a work in progress and is **incomplete**, it is not safe for production
+This is currently a work in progress and is **incomplete**, it is not safe for production
+without considering security, scaling and durability. It is recommended to use this as a
+starting point for building a [Concourse CI](https://concourse-ci.org/) system.
 
 ## Pre-requisites
 
@@ -8,7 +10,7 @@ WARNING: This is currently a work in progress and is **incomplete**, it is not s
   * Understanding of what [Concourse CI](https://concourse-ci.org/) is
   * Basic understanding of Azure and permissions
   
-* **Software installed**
+* **Software installed on local machine**
   * Terraform (written against v0.11.13)
   * Azure CLI (written against 2.0.60)
 
@@ -46,7 +48,16 @@ terraform init
 terraform apply
 ```
 
-## Further reading
+## Installation and configuration
 
-To understand more about how concourse is being installed and configured after the infrastructure
-has been provisioned, see [here](#) -- **unfinished**
+Once terraform has complete the provisioning of the infrastructure, [ansible](https://ansible.com) is used to
+install and configure the following using cloud-init *automatically*.
+
+* Postgresql 
+* Concourse web
+* Concourse worker
+
+All of the software will be installed and configured on a single machine however when running at scale
+it may be worth considering multiple web and worker nodes. More on scaling and performance can be found
+on the Concourse CI website.
+
