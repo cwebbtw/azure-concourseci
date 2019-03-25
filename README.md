@@ -57,5 +57,7 @@ install and configure the following using cloud-init *automatically*.
 * Concourse web
 * Concourse worker
 
-I
+All of the software will be installed and configured on a single machine however when running at scale
+it may be worth considering multiple web and worker nodes. More on scaling and performance can be found
+on the Concourse CI website.
 
