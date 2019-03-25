@@ -82,3 +82,4 @@ If you want to use [Github OAuth](https://developer.github.com/apps/building-oau
 
 * Sample pipelines
 * Concourse web currently runs under 'concourse' user but is administrator
+* Tests for terraform provisioned infrastructure and ansible configured software
