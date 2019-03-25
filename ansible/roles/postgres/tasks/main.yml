@@ -21,13 +21,18 @@
   postgresql_db:
     name: "{{ concourse_database_name }}"
 
+- name: Create user
+  postgresql_user:
+    db: "{{ concourse_database_name }}"
+    name: "{{ concourse_database_user }}"
+    password: "{{ concourse_database_password }}"
+
 - name: Grant user access to database
   become: yes
   become_user: postgres
   postgresql_user:
     db: "{{ concourse_database_name }}"
     name: "{{ concourse_database_user }}"
-    password: "{{ concourse_database_password }}"
     priv: ALL
     role_attr_flags: NOSUPERUSER,NOCREATEDB
 
