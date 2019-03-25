@@ -76,5 +76,5 @@ on the Concourse CI website.
 
 Local Authentication is currently enabled with the username *concourse* and password *concourse*.
 
-If you want to use [Github OAuth](https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/), see the sample key vault *client id* and *secret id* terraform declarations. Using the azure machine identity, retrieve the secrets and write them into the concourse-web service file (in the ansible templates directory)
+If you want to use [Github OAuth](https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/), see the sample key vault *client id* and *secret id* terraform declarations in [networking.tf](terraform/networking.tf). Using the azure machine identity, retrieve the secrets and write them into the templated [concourse-web service file](ansible/roles/concourse-web/templates/concourse-web.service.j2).
 
