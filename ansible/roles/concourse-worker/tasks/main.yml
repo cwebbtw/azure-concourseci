@@ -11,4 +11,7 @@
     dest: /lib/systemd/system/concourse-worker.service
 
 - name: Start Concourse Worker Service
-  systemd: name=concourse-worker state=restarted enabled=yes
+  systemd:
+    name: concourse-worker
+    state: restarted
+    enabled: yes

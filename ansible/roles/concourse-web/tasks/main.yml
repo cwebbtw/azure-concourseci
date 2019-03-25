@@ -1,5 +1,10 @@
 ---
 
+- name: Create non-admin concourse system user
+  user:
+    name: concourse
+    comment: Concourse Non Administrator
+
 - name: Generate Credentials
   set_fact:
     concourseci_install_location: "{{ concourseci_install_location }}"
@@ -63,5 +68,14 @@
     src: concourse-web.service.j2
     dest: /lib/systemd/system/concourse-web.service
 
+- name: Change permissions on install location
+  file:
+    dest: "{{ concourseci_install_location }}"
+    owner: concourse
+    recurse: yes
+
 - name: Start Concourse Web Service
-  systemd: name=concourse-web state=restarted enabled=yes
+  systemd:
+    name: concourse-web
+    state: restarted
+    enabled: yes

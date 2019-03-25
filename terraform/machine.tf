@@ -32,8 +32,8 @@ resource "azurerm_virtual_machine" "concourse_vm" {
   }
 
   os_profile {
-    computer_name = "concourse"
-    admin_username = "concourse"
+    computer_name = "concourse-all"
+    admin_username = "admin"
     custom_data = "${data.template_cloudinit_config.concourse_config.rendered}"
   }
 
