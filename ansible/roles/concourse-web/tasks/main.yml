@@ -52,14 +52,7 @@
     "{{ concourseci_install_location }}/concourse/bin/concourse" generate-key
     -t ssh -f "{{ concourseci_install_location }}/concourse/keys/worker_key"
 
-- name: Create Authorised Keys Directory
-  become: yes
-  become_user: root
-  file:
-    path: "{{ concourseci_install_location }}/concourse/keys/authorized_worker_keys"
-    state: directory
-
-- name: Copy worker key to Authorised Keys Directory
+- name: Copy worker key to Authorised Keys file
   copy:
     src: "{{ concourseci_install_location }}/concourse/keys/worker_key.pub"
     dest: "{{ concourseci_install_location }}/concourse/keys/authorized_worker_keys"
