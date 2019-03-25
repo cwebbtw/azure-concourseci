@@ -78,7 +78,18 @@ Local Authentication is currently enabled with the username *concourse* and pass
 
 If you want to use [Github OAuth](https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/), see the sample key vault *client id* and *secret id* terraform declarations in [keyvault.tf](terraform/keyvault.tf). Using the azure machine identity, retrieve the secrets and write them into the templated [concourse-web service file](ansible/roles/concourse-web/templates/concourse-web.service.j2).
 
+## Tests
+
+[Inspec](https://www.inspec.io/) is used to remotely test whether ansible successfully started concourse and postgres.
+
+To run the inspec tests:
+
+```
+inspec exec inspec -t ssh://concourse-admin@<dns label>.westeurope.cloudapp.azure.com
+```
+where the dns label is the value specified by the `public_ip_label` variable.
+
 ## Improvements
 
 * Sample pipelines
-* Tests for terraform provisioned infrastructure and ansible configured software
+* Tests for terraform provisioned infrastructure
