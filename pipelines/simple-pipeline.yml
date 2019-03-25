@@ -1,0 +1,34 @@
+jobs:
+  - name: Job A
+    plan:
+      - task: task 1
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source: {repository: alpine}
+          run:
+            path: echo
+            args: ["Job: A, Task: 1"]
+
+  - name: Job B
+    plan:
+      - task: task 1
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source: {repository: alpine}
+          run:
+            path: echo
+            args: ["Job: B, Task: 1"]
+
+      - task: task 2
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source: {repository: alpine}
+          run:
+            path: echo
+            args: ["Job: B, Task: 2"]

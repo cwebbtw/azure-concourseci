@@ -89,6 +89,10 @@ inspec exec inspec -t ssh://concourse-admin@<dns label>.westeurope.cloudapp.azur
 ```
 where the dns label is the value specified by the `public_ip_label` variable.
 
+## Sample Pipelines
+
+* Two jobs, one with a single task and the other with two tasks
+
 ## Improvements
 
 * Sample pipelines
