@@ -33,14 +33,14 @@ resource "azurerm_virtual_machine" "concourse_vm" {
 
   os_profile {
     computer_name = "concourse-all"
-    admin_username = "admin"
+    admin_username = "concourse-admin"
     custom_data = "${data.template_cloudinit_config.concourse_config.rendered}"
   }
 
   os_profile_linux_config {
     disable_password_authentication = true
     ssh_keys {
-      path = "/home/concourse/.ssh/authorized_keys"
+      path = "/home/concourse-admin/.ssh/authorized_keys"
       key_data = "${tls_private_key.concourse_key.public_key_openssh}"
     }
   }
