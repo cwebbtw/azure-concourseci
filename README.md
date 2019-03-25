@@ -56,13 +56,13 @@ terraform init
 terraform apply
 ```
 
-See the next session for information on installation and configuration of the components (automatic - no more commands are required)
+See the next section for information on installation and configuration of the components (automatic - no more commands are required)
 
 
 ## Installation and configuration
 
 Once terraform has complete the provisioning of the infrastructure, [ansible](https://ansible.com) is used to
-install and configure the following using cloud-init *automatically*.
+install and configure the following using cloud-init *automatically*:
 
 * Postgresql 
 * Concourse web
