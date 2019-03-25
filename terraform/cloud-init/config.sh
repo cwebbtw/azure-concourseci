@@ -17,7 +17,7 @@ git clone https://github.com/cwebbtw/azure-concourseci.git
 cd azure-concourseci/ansible
 
 # Concourse requires being told its external URL
-export EXTERNAL_URL=%EXTERNAL_URL%
+export EXTERNAL_URL=http://%EXTERNAL_URL%:8080
 
 ansible-playbook --connection=local --inventory localhost, playbook.yml --tags all
 
