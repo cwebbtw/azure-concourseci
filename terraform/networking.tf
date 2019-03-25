@@ -31,6 +31,7 @@ resource "azurerm_public_ip" "concourse_public_ip" {
   resource_group_name          = "${azurerm_resource_group.concourse.name}"
   allocation_method            = "Dynamic"
   name                         = "concourse-public-ip"
+  domain_name_label            = "${var.public_ip_label}"
 }
 
 resource "azurerm_network_interface_application_security_group_association" "concourse_asg_association" {
