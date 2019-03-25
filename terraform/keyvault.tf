@@ -36,8 +36,14 @@ resource "azurerm_key_vault" "concourse_keyvault" {
   }
 }
 
-resource "azurerm_key_vault_secret" "concourse_keyvault_secret" {
+resource "azurerm_key_vault_secret" "concourse_keyvault_sample_client_id" {
   name                          = "github-client-id"
-  value                         = "some random pw"
+  value                         = "sample client id"
+  key_vault_id                  = "${azurerm_key_vault.concourse_keyvault.id}"
+}
+
+resource "azurerm_key_vault_secret" "concourse_keyvault_sample_client_secret" {
+  name                          = "github-client-secret"
+  value                         = "sample client secret"
   key_vault_id                  = "${azurerm_key_vault.concourse_keyvault.id}"
 }

@@ -33,6 +33,18 @@ resource "azurerm_public_ip" "concourse_public_ip" {
   name                         = "concourse-public-ip"
 }
 
+resource "azurerm_network_interface_application_security_group_association" "concourse_asg_association" {
+  network_interface_id          = "${azurerm_network_interface.concourse_public_nic.id}"
+  ip_configuration_name         = "${azurerm_network_interface.concourse_public_nic.ip_configuration.0.name}"
+  application_security_group_id = "${azurerm_application_security_group.concourse_asg.id}"
+}
+
+resource "azurerm_application_security_group" "concourse_asg" {
+  name                = "concourse-asg"
+  location            = "${azurerm_resource_group.concourse.location}"
+  resource_group_name = "${azurerm_resource_group.concourse.name}"
+}
+
 resource "azurerm_network_security_group" "concourse_nsg" {
   name                = "concourse-nsg"
   location            = "${azurerm_resource_group.concourse.location}"
@@ -47,6 +59,18 @@ resource "azurerm_network_security_group" "concourse_nsg" {
     source_port_range          = "*"
     destination_port_range     = "22"
     source_address_prefix      = "*"
-    destination_address_prefix = "*"
+    destination_application_security_group_ids = ["${azurerm_application_security_group.concourse_asg.id}"]
+  }
+
+  security_rule {
+    name                       = "HTTP"
+    priority                   = 1002
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "8080"
+    source_address_prefix      = "*"
+    destination_application_security_group_ids = ["${azurerm_application_security_group.concourse_asg.id}"]
   }
 }

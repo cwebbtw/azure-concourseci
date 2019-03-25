@@ -47,7 +47,9 @@ resource "azurerm_virtual_machine" "concourse_vm" {
 }
 
 data "template_file" "concourse_config_template" {
-  template = "${file("${path.root}/cloud-init/config.sh")}"
+  template = "${replace(file("${path.root}/cloud-init/config.sh"),
+    "%EXTERNAL_URL%",
+    "${var.public_ip_label}.${azurerm_resource_group.concourse.location}.cloudapp.azure.com")}"
 }
 
 data "template_cloudinit_config" "concourse_config" {

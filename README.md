@@ -37,9 +37,17 @@ To provision the infrastructure, [terraform](https://www.terraform.io/) is used 
 * Key Vault ([azure key vault](https://azure.microsoft.com/en-gb/services/key-vault/))
 * Machine ([virtual machine](https://azure.microsoft.com/en-gb/services/virtual-machines/))
 
+###### Key Vault
+
+The reason for the Azure Key Vault is that it is not recommended to manage the user authentication yourself.
+
+Using Azure Key Vault, secrets can be added at provision time and then read securely at install/configuration time.
+An example of secrets that would be added are client id and client secret as required by [Github OAuth](https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/).
+
 #### Instructions
 
-You will need to ensure that the shell you are working in has permission to provision the above infrastructure in Azure.
+You will need to ensure that the shell you are working in has permission to provision the above infrastructure in Azure. i.e. run `az login` prior to executing the commands below. If you
+do not have permission to provision the listed infrastructure, see the Owner of your subscription.
 
 ```
 cd terraform/
@@ -47,6 +55,9 @@ cd terraform/
 terraform init
 terraform apply
 ```
+
+See the next session for information on installation and configuration of the components (automatic - no more commands are required)
+
 
 ## Installation and configuration
 
